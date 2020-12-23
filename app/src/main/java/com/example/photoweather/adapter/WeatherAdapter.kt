@@ -38,31 +38,36 @@ class WeatherAdapter : RecyclerView.Adapter<WeatherAdapter.WeatherViewHolder>() 
         )
     }
 
-    private var onItemClickListener: ((Bitmap, View) -> Unit)? = null
+    private var onShareClickListener: ((Bitmap) -> Unit)? = null
 
-    fun setOnItemClickListener(listener: (Bitmap, View) -> Unit) {
-        onItemClickListener = listener
+    fun setOnShareClickListener(listener: (Bitmap) -> Unit) {
+        onShareClickListener = listener
     }
+    private var onImageClickListener: ((Int ,View) -> Unit)? = null
 
+    fun setOnImageClickListener(listener: (Int ,View) -> Unit) {
+        onImageClickListener = listener
+    }
     override fun onBindViewHolder(holder: WeatherViewHolder, position: Int) {
         val url = list[position]
+
         holder.bining.apply {
             holder.bining.shareButton.setOnClickListener {
-                onItemClickListener?.let { click ->
-                    click(url.img!!, it)
+                onShareClickListener?.let { click ->
+                    click(url.img!!)
                 }
 
             }
-            val displayMetrics = this.imageView2.context.resources.displayMetrics
-
             imageView2.setImageBitmap(
-                Bitmap.createScaledBitmap(
-                    url.img!!,
-                    displayMetrics.widthPixels / 2,
-                    displayMetrics.widthPixels / 2,
-                    true
-                )
+                url.img
             )
+                holder.bining.imageView2.setOnClickListener {
+                    onImageClickListener?.let { click ->
+                        click(url.id , holder.bining.imageView2)
+                    }
+
+                }
+
 
         }
 

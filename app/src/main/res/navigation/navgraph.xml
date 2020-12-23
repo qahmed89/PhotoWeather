@@ -8,15 +8,30 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="com.example.photoweather.ui.fragment.HomeFragment"
-        android:label="Home"
+        android:label="HomeFragment"
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_homeFragment_to_weatherDetailsFragment"
             app:destination="@id/weatherDetailsFragment" />
+        <action
+            android:id="@+id/action_homeFragment_to_displayImageFragment"
+            app:destination="@id/displayImageFragment" />
+        <argument
+            android:name="id"
+            app:argType="integer" />
     </fragment>
     <fragment
         android:id="@+id/weatherDetailsFragment"
-        android:name="com.example.photoweather.ui.fragment.WeatherDetailsFragment"
-        android:label="Details"
-        tools:layout="@layout/fragment_weather_details" />
+        android:name="com.example.photoweather.ui.fragment.AddPhotoWeatherFragment"
+        android:label="WeatherDetailsFragment"
+        tools:layout="@layout/fragment_add_photo_weather" />
+    <fragment
+        android:id="@+id/displayImageFragment"
+        android:name="com.example.photoweather.ui.fragment.DisplayImageFragment"
+        android:label="fragment_display_image"
+        tools:layout="@layout/fragment_display_image">
+        <argument
+            android:name="id"
+            app:argType="integer" />
+    </fragment>
 </navigation>

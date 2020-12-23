@@ -1,5 +1,6 @@
 package com.example.photoweather.repository
 
+import android.graphics.Bitmap
 import androidx.lifecycle.LiveData
 import com.example.designapp.other.Resource
 import com.example.photoweather.db.Weather
@@ -33,6 +34,6 @@ suspend fun  getWeather (lat : String , lon :String , apikey : String ) :Resourc
 
     suspend fun insertRun(weather: Weather) = dao.insertRun(weather )
     suspend fun deleteRun(weather: Weather) = dao.deleteWeather(weather )
-
+    fun getImageById ( id: Int) : LiveData<Bitmap> = dao.getImage(id)
     fun getWeatherHistory () :LiveData<List<Weather>> = dao.getAllWeatherHistory()
 }

@@ -21,7 +21,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.designapp.other.Status
 import com.example.photoweather.R
-import com.example.photoweather.databinding.FragmentWeatherDetailsBinding
+import com.example.photoweather.databinding.FragmentAddPhotoWeatherBinding
 import com.example.photoweather.db.Weather
 import com.example.photoweather.other.Constants
 import com.example.photoweather.other.Constants.API_KEY
@@ -38,8 +38,8 @@ import pub.devrel.easypermissions.EasyPermissions
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
-    private var _binding: FragmentWeatherDetailsBinding? = null
+class AddPhotoWeatherFragment : Fragment(), EasyPermissions.PermissionCallbacks {
+    private var _binding: FragmentAddPhotoWeatherBinding? = null
     private val binding get() = _binding!!
     private val viewModels: WeatherViewModel by viewModels()
     var lat: Double? = null
@@ -50,11 +50,11 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     @Inject
     lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentWeatherDetailsBinding.inflate(inflater, container, false)
+        _binding = FragmentAddPhotoWeatherBinding.inflate(inflater, container, false)
 
         return binding.root
     }
@@ -74,7 +74,7 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
         }
         binding.bRetry.setOnClickListener {
             location(fusedLocationProviderClient)
-            viewModels.getDataWeather(lat.toString() , lon.toString() , API_KEY)
+            viewModels.getDataWeather(lat.toString(), lon.toString(), API_KEY)
         }
         binding.button.setOnClickListener {
             if (weatherItem != null) {
@@ -82,9 +82,9 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                 findNavController().popBackStack(R.id.homeFragment, false)
             } else {
                 Toast.makeText(
-                    requireContext(),
-                    " Check Your InterNet or  Enable Location",
-                    Toast.LENGTH_LONG
+                        requireContext(),
+                        " Check Your InterNet or  Enable Location",
+                        Toast.LENGTH_LONG
                 ).show()
 
             }
@@ -94,7 +94,7 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun isGPSEnabled(): Boolean {
         val locationManager = context?.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        var gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
+        val gpsStatus = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
         return gpsStatus
     }
 
@@ -125,15 +125,15 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
                         setDataIfSuccess(result.data!!)
 
                         bitmap = WriteImage.writeOnImage(
-                            requireContext(), bitmap!!, "Address is ".plus(result.data.name),
-                            "Temperature is ".plus(result.data.main.temp).plus("°C"),
-                            "Condition is ".plus(result.data.weather[0].main)
+                                requireContext(), bitmap!!, "Address is ".plus(result.data.name),
+                                "Temperature is ".plus(result.data.main.temp).plus("°C"),
+                                "Condition is ".plus(result.data.weather[0].main)
                         )
                         weatherItem = Weather(
-                            bitmap,
-                            result.data.name,
-                            result.data.main.temp.toString(),
-                            result.data.weather[0].main
+                                bitmap,
+                                result.data.name,
+                                result.data.main.temp.toString(),
+                                result.data.weather[0].main
                         )
 
                     }
@@ -181,7 +181,7 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     fun setDataIfError(msg: String) {
         binding.apply {
             tvState.isVisible = true
-            tvState.text = msg + " Try Again"
+            tvState.text = msg.plus(" Try Again")
             pbWeather.isVisible = false
             tvCon.isVisible = false
             tvCity.isVisible = false
@@ -194,28 +194,28 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
 
     private fun requestPermission() {
         if (LocationUtility.hasLocationPermission(requireContext())) {
-           location(fusedLocationProviderClient)
+            location(fusedLocationProviderClient)
             return
         }
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
             EasyPermissions.requestPermissions(
-                this,
-                "you need  to accept location permissions to use the app.",
-                Constants.REQUESt_Code_LOCATION_PERMISSION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    this,
+                    "you need  to accept location permissions to use the app.",
+                    Constants.REQUESt_Code_LOCATION_PERMISSION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
 
             )
             location(fusedLocationProviderClient)
 
         } else {
             EasyPermissions.requestPermissions(
-                this,
-                "you need  to accept location permissions to use the app.",
-                Constants.REQUESt_Code_LOCATION_PERMISSION,
-                android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
-                android.Manifest.permission.ACCESS_FINE_LOCATION,
-                android.Manifest.permission.ACCESS_COARSE_LOCATION
+                    this,
+                    "you need  to accept location permissions to use the app.",
+                    Constants.REQUESt_Code_LOCATION_PERMISSION,
+                    android.Manifest.permission.ACCESS_BACKGROUND_LOCATION,
+                    android.Manifest.permission.ACCESS_FINE_LOCATION,
+                    android.Manifest.permission.ACCESS_COARSE_LOCATION
             )
             location(fusedLocationProviderClient)
 
@@ -236,16 +236,21 @@ class WeatherDetailsFragment : Fragment(), EasyPermissions.PermissionCallbacks {
     }
 
     override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
+            requestCode: Int,
+            permissions: Array<out String>,
+            grantResults: IntArray
     ) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         EasyPermissions.onRequestPermissionsResult(
-            requestCode,
-            permissions,
-            grantResults,
-            this
+                requestCode,
+                permissions,
+                grantResults,
+                this
         )
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 }

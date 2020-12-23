@@ -1,5 +1,6 @@
 package com.example.photoweather.ui
 
+import android.graphics.Bitmap
 import androidx.hilt.lifecycle.ViewModelInject
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -40,4 +41,6 @@ class WeatherViewModel @ViewModelInject constructor(private  val repo :  Weather
 
         }
     }
+
+    fun getImageById (id :Int ) : LiveData <Bitmap> = repo.getImageById(id)
 }

@@ -11,13 +11,13 @@ object WriteImage {
         place: String,
         temp: String,
         condition: String
-    ): Bitmap? {
+    ): Bitmap {
 
         val displayMetrics = context.resources.displayMetrics
         val b = Bitmap.createScaledBitmap(
             bitmap,
-            displayMetrics.widthPixels / 4,
-            displayMetrics.widthPixels / 4,
+            displayMetrics.widthPixels / 2,
+            displayMetrics.widthPixels / 2,
             true
         )
         val mutableBitmap: Bitmap = b.copy(Bitmap.Config.ARGB_8888, true)
